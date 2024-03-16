@@ -1,37 +1,29 @@
-name: Create New Tag
-
 on:
-  pull_request:
-    branches:
-      - main
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Create Release
 
 jobs:
-  create_tag:
-    name: Create Tag
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
-        
-      - name: Set up Rust
-        uses: actions/setup-rust@v1
-        
-      - name: Get project version
-        id: get_version
-        run: echo "::set-output name=version::$(grep -oP '(?<=version = ").*(?="\s*$)' Cargo.toml)"
-        
-      - name: Create Tag
-        uses: actions/github-script@v5
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          script: |
-            const version = '${{ steps.get_version.outputs.version }}';
-            console.log(`Creating tag for version ${version}`);
-            const tag = `v${version}`;
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: `refs/tags/${tag}`,
-              sha: context.sha
-            });
-
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
