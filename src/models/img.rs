@@ -5,6 +5,7 @@ pub struct Img {
     alt: String,
     img: Vec<u8>,
     img_type: ImgType,
+    id: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
