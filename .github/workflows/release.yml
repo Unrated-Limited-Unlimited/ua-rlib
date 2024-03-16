@@ -14,9 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      - name: Set up Rust
-        uses: actions/setup-rust@v1
-        
       - name: Get project version
         id: get_version
         run: echo "::set-output name=version::$(grep -oP '(?<=version = ").*(?="\s*$)' Cargo.toml)"
