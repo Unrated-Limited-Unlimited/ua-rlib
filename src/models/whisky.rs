@@ -60,8 +60,9 @@ impl Whiskey {
                 .to_string(),
             percentage: value["alcohol"]["value"]
                 .as_number()
-                .and_then(|e| e.as_u64())
-                .ok_or_eyre(format!("Failed getting `alcohol.value` from `{value:?}`"))?,
+                .and_then(|e| e.as_f64())
+                .ok_or_eyre(format!("Failed getting `alcohol.value` from `{value:?}`"))?
+                as u64,
             price: value["price"]["value"]
                 .as_number()
                 .and_then(|e| e.as_f64())
