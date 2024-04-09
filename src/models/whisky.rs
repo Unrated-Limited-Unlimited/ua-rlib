@@ -68,7 +68,7 @@ impl Whiskey {
                 .and_then(|e| e.as_f64())
                 .ok_or_eyre(format!("Failed getting `price.value` from `{value:?}`"))?,
             rating: 0f64,
-            summary: value["summary"].to_string(),
+            summary: value["taste"].to_string(),
             title: value["name"].to_string(),
             volume: value["volume"]["value"]
                 .as_number()
