@@ -24,7 +24,7 @@ pub enum ImgType {
 /// Sets response status and content-type header to image/jpeg
 #[derive(Responder)]
 #[response(status = 200, content_type = "image/jpeg")]
-pub struct ImgResponse(Vec<u8>);
+pub struct ImgResponse(pub Vec<u8>);
 
 /// Image wrapper used for storing it in the database
 #[derive(Debug, Serialize, Deserialize)]
